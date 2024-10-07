@@ -103,6 +103,7 @@ clean                          Clean the docker stack
 vendor                         Install composer dependencies
 unit-test                      Run PhpUnit unit testsuite
 func-test                      Run PhpUnit functionnal testsuite
+messenger-consume              Consume messages from the messenger, use ARGS to pass options
 ```
 **We encourage you to have fun during this challenge!**
 

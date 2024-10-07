@@ -109,3 +109,9 @@ func-test: var/docker.up ## Run PhpUnit functionnal testsuite
 	@$(call log,Running ...)
 	$(PHP_EXEC) bin/phpunit -v --testsuite func --testdox
 	@$(call log_success,Done)
+
+.PHONY: messenger-consume
+messenger-consume: var/docker.up ## Run the messenger consumer, use ARGS to pass options
+	@$(call log,Running ...)
+	$(PHP_EXEC) bin/console messenger:consume async $(ARGS)
+	@$(call log_success,Done)
