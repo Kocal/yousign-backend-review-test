@@ -3,6 +3,8 @@ declare(strict_types=1);
 
 namespace App\Message;
 
+use function Symfony\Component\Clock\now;
+
 final class ImportGitHubEvents
 {
     public function __construct(
@@ -33,5 +35,26 @@ final class ImportGitHubEvents
                throw new \InvalidArgumentException(sprintf('The relative period "%s" is invalid.', $this->relativePeriod), previous: $e);
            }
         }
+    }
+    
+    public function getDatePeriod(): \DatePeriod
+    {
+        if ($this->startDate && $this->endDate) {
+            $startDate = $this->startDate;
+            $endDate = \DateTimeImmutable::createFromInterface($this->endDate)
+                // Include the end date in the period // TODO: PHP <8.2: to remove when upgrading to PHP 8.2
+                ->modify('+1 day')
+            ;
+        } else if ($this->relativePeriod) {
+            $endDate = now();
+            $startDate = $endDate->modify($this->relativePeriod);
+        }
+        
+        return new \DatePeriod(
+            $startDate, 
+            new \DateInterval('P1D'), 
+            $endDate,
+            // $this->relativePeriod ? 0 : \DatePeriod::INCLUDE_END_DATE // TODO: PHP 8.2: uncomment when upgrading to PHP 8.2
+        );
     }
 }

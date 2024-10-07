@@ -45,7 +45,7 @@ class ImportGitHubEventsCommand extends Command
         $this
             ->addOption('async', null, InputOption::VALUE_NONE, 'Execute the command asynchronously.')
             ->addOption('start-date', null, InputOption::VALUE_OPTIONAL, 'A valid DateTime format (ex: "2024-01-01").', null)
-            ->addOption('end-date', null, InputOption::VALUE_OPTIONAL, 'A valid DateTime format (ex: "2024-11-08").', null)
+            ->addOption('end-date', null, InputOption::VALUE_OPTIONAL, 'A valid DateTime format (ex: "2024-11-08"). The date is included.', null)
             ->addOption('relative-period', null, InputOption::VALUE_OPTIONAL, 'A valid relative period (ex: "-3 weeks", "-2 months").', null)
             ->addUsage('--start-date="2024-01-01" --end-date="2024-11-08"')
             ->addUsage('--start-date="2024-01-01" --end-date="2024-11-08" --async')
