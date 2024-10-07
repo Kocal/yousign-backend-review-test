@@ -8,9 +8,9 @@ use function Symfony\Component\Clock\now;
 final class ImportGitHubEvents
 {
     public function __construct(
-        private readonly \DateTimeInterface|null $startDate,
-        private readonly \DateTimeInterface|null $endDate,
-        private readonly string|null $relativePeriod,
+        private readonly \DateTimeInterface|null $startDate = null,
+        private readonly \DateTimeInterface|null $endDate = null,
+        private readonly string|null $relativePeriod = null,
     ) {
         if ($this->startDate === null && $this->endDate === null && $this->relativePeriod === null) {
             throw new \InvalidArgumentException('You must provide a start date, an end date or a relative period.');

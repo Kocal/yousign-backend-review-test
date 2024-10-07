@@ -1,0 +1,6 @@
+framework:
+    http_client:
+        scoped_clients:
+            # only requests matching scope will use these options
+            gh_archive.client:
+                base_uri: 'https://data.gharchive.org'
