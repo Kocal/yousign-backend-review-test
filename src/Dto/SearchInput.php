@@ -4,13 +4,7 @@ namespace App\Dto;
 
 class SearchInput
 {
-    /**
-     * @var \DateTimeImmutable
-     */
-    public $date;
+    public \DateTimeImmutable|null $date = null;
 
-    /**
-     * @var string
-     */
-    public $keyword;
+    public ?string $keyword = null;
 }
