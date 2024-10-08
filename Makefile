@@ -109,3 +109,9 @@ func-test: var/docker.up ## Run PhpUnit functionnal testsuite
 	@$(call log,Running ...)
 	$(PHP_EXEC) bin/phpunit -v --testsuite func --testdox
 	@$(call log_success,Done)
+
+.PHONY: cs
+cs: var/docker.up ## Run PHP CS Fixer
+	@$(call log,Running ...)
+	@$(PHP_RUN) vendor/bin/php-cs-fixer fix
+	@$(call log_success,Done)
