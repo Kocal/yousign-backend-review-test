@@ -12,6 +12,7 @@ class DbalWriteEventRepository implements WriteEventRepository
     ) {
     }
 
+    #[\Override]
     public function update(EventInput $authorInput, int $id): void
     {
         $sql = <<<SQL

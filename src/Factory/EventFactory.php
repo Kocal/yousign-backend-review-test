@@ -13,11 +13,13 @@ use Zenstruck\Foundry\Persistence\PersistentProxyObjectFactory;
  */
 final class EventFactory extends PersistentProxyObjectFactory
 {
+    #[\Override]
     public static function class(): string
     {
         return Event::class;
     }
 
+    #[\Override]
     protected function defaults(): array|callable
     {
         return [

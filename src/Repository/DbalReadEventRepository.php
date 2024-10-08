@@ -12,6 +12,7 @@ class DbalReadEventRepository implements ReadEventRepository
     ) {
     }
 
+    #[\Override]
     public function countAll(SearchInput $searchInput): int
     {
         $sql = <<<SQL
@@ -26,6 +27,7 @@ SQL;
         ]);
     }
 
+    #[\Override]
     public function countByType(SearchInput $searchInput): array
     {
         $sql = <<<'SQL'
@@ -41,6 +43,7 @@ SQL;
         ]);
     }
 
+    #[\Override]
     public function statsByTypePerHour(SearchInput $searchInput): array
     {
         $sql = <<<SQL
@@ -64,6 +67,7 @@ SQL;
         return $data;
     }
 
+    #[\Override]
     public function getLatest(SearchInput $searchInput): array
     {
         $sql = <<<SQL
@@ -85,6 +89,7 @@ SQL;
         }, $result);
     }
 
+    #[\Override]
     public function exist(int $id): bool
     {
         $sql = <<<SQL

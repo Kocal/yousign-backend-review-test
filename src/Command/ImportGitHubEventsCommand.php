@@ -16,12 +16,14 @@ class ImportGitHubEventsCommand extends Command
 {
     protected static $defaultName = 'app:import-github-events';
 
+    #[\Override]
     protected function configure(): void
     {
         $this
             ->setDescription('Import GH events');
     }
 
+    #[\Override]
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         // Let's rock !

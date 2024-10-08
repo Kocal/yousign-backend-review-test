@@ -12,11 +12,13 @@ use Zenstruck\Foundry\Persistence\PersistentProxyObjectFactory;
  */
 final class RepoFactory extends PersistentProxyObjectFactory
 {
+    #[\Override]
     public static function class(): string
     {
         return Repo::class;
     }
 
+    #[\Override]
     protected function defaults(): array|callable
     {
         return [

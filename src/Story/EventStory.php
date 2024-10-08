@@ -12,12 +12,13 @@ use Zenstruck\Foundry\Story;
 
 final class EventStory extends Story
 {
-    public const EVENT_1_ID = 1;
+    public const int EVENT_1_ID = 1;
 
-    public const ACTOR_1_ID = 1;
+    public const int ACTOR_1_ID = 1;
 
-    public const REPO_1_ID = 1;
+    public const int REPO_1_ID = 1;
 
+    #[\Override]
     public function build(): void
     {
         EventFactory::createOne([

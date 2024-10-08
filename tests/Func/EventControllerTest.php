@@ -15,6 +15,7 @@ final class EventControllerTest extends WebTestCase
 
     private static KernelBrowser $client;
 
+    #[\Override]
     protected function setUp(): void
     {
         static::$client = static::createClient();

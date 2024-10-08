@@ -12,11 +12,13 @@ use Zenstruck\Foundry\Persistence\PersistentProxyObjectFactory;
  */
 final class ActorFactory extends PersistentProxyObjectFactory
 {
+    #[\Override]
     public static function class(): string
     {
         return Actor::class;
     }
 
+    #[\Override]
     protected function defaults(): array|callable
     {
         return [
