@@ -15,7 +15,9 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
 class EventController
 {
     private WriteEventRepository $writeEventRepository;
+
     private ReadEventRepository $readEventRepository;
+
     private SerializerInterface $serializer;
 
     public function __construct(

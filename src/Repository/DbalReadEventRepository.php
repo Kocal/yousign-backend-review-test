@@ -80,13 +80,11 @@ SQL;
             'keyword' => $searchInput->keyword,
         ]);
 
-        $result = array_map(static function ($item) {
+        return array_map(static function (array $item) {
             $item['repo'] = json_decode($item['repo'], true);
 
             return $item;
         }, $result);
-
-        return $result;
     }
 
     public function exist(int $id): bool

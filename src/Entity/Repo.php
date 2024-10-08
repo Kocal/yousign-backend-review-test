@@ -4,23 +4,22 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
-
 
 #[ORM\Entity]
 #[ORM\Table(name: 'repo')]
 class Repo
 {
-    
     #[ORM\Id]
-    #[ORM\Column(type: 'bigint')]
+    #[ORM\Column(type: Types::BIGINT)]
     #[ORM\GeneratedValue(strategy: 'NONE')]
     private int $id;
 
-    #[ORM\Column(type: 'string')]
+    #[ORM\Column(type: Types::STRING)]
     public string $name;
 
-    #[ORM\Column(type: 'string')]
+    #[ORM\Column(type: Types::STRING)]
     public string $url;
 
     public function __construct(int $id, string $name, string $url)

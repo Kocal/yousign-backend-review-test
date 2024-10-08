@@ -4,46 +4,43 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
-
 
 #[ORM\Entity]
 #[ORM\Table(name: '`event`')]
 #[ORM\Index(name: 'IDX_EVENT_TYPE', columns: ['type'])]
 class Event
 {
-    
     #[ORM\Id]
-    #[ORM\Column(type: 'bigint')]
+    #[ORM\Column(type: Types::BIGINT)]
     #[ORM\GeneratedValue(strategy: 'NONE')]
     private int $id;
 
     #[ORM\Column(type: 'EventType', nullable: false)]
     private string $type;
 
-    #[ORM\Column(type: 'integer', nullable: false)]
+    #[ORM\Column(type: Types::INTEGER, nullable: false)]
     private int $count = 1;
 
-    
-    #[ORM\ManyToOne(targetEntity: \App\Entity\Actor::class, cascade: ['persist'])]
+    #[ORM\ManyToOne(targetEntity: Actor::class, cascade: ['persist'])]
     #[ORM\JoinColumn(name: 'actor_id', referencedColumnName: 'id')]
     private Actor $actor;
 
-    
-    #[ORM\ManyToOne(targetEntity: \App\Entity\Repo::class, cascade: ['persist'])]
+    #[ORM\ManyToOne(targetEntity: Repo::class, cascade: ['persist'])]
     #[ORM\JoinColumn(name: 'repo_id', referencedColumnName: 'id')]
     private Repo $repo;
 
     /**
      * @var array<string, mixed>
      */
-    #[ORM\Column(type: 'json', nullable: false, options: ['jsonb' => true])]
+    #[ORM\Column(type: Types::JSON, nullable: false, options: ['jsonb' => true])]
     private array $payload;
 
-    #[ORM\Column(type: 'datetime_immutable', nullable: false)]
+    #[ORM\Column(type: Types::DATETIME_IMMUTABLE, nullable: false)]
     private \DateTimeImmutable $createAt;
 
-    #[ORM\Column(type: 'text', nullable: true)]
+    #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $comment;
 
     /**

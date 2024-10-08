@@ -12,6 +12,7 @@ use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
 class SearchController
 {
     private ReadEventRepository $repository;
+
     private DenormalizerInterface $denormalizer;
 
     public function __construct(

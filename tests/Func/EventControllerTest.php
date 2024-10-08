@@ -11,7 +11,8 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 final class EventControllerTest extends WebTestCase
 {
-    protected AbstractDatabaseTool $databaseTool;
+    private AbstractDatabaseTool $databaseTool;
+
     private static KernelBrowser $client;
 
     protected function setUp(): void
@@ -40,7 +41,7 @@ final class EventControllerTest extends WebTestCase
             [],
             [],
             ['CONTENT_TYPE' => 'application/json'],
-            json_encode(['comment' => 'It‘s a test comment !!!!!!!!!!!!!!!!!!!!!!!!!!!'], flags: JSON_THROW_ON_ERROR)
+            json_encode(['comment' => 'It‘s a test comment !!!!!!!!!!!!!!!!!!!!!!!!!!!'], flags: \JSON_THROW_ON_ERROR)
         );
 
         $this->assertResponseStatusCodeSame(204);
@@ -56,7 +57,7 @@ final class EventControllerTest extends WebTestCase
             [],
             [],
             ['CONTENT_TYPE' => 'application/json'],
-            json_encode(['comment' => 'It‘s a test comment !!!!!!!!!!!!!!!!!!!!!!!!!!!'], flags: JSON_THROW_ON_ERROR)
+            json_encode(['comment' => 'It‘s a test comment !!!!!!!!!!!!!!!!!!!!!!!!!!!'], flags: \JSON_THROW_ON_ERROR)
         );
 
         $this->assertResponseStatusCodeSame(404);
@@ -67,7 +68,7 @@ final class EventControllerTest extends WebTestCase
               }
             JSON;
 
-        self::assertJsonStringEqualsJsonString($expectedJson, $client->getResponse()->getContent() ?: '');
+        $this->assertJsonStringEqualsJsonString($expectedJson, $client->getResponse()->getContent() ?: '');
     }
 
     /**
@@ -86,8 +87,8 @@ final class EventControllerTest extends WebTestCase
             $payload
         );
 
-        self::assertResponseStatusCodeSame(400);
-        self::assertJsonStringEqualsJsonString($expectedResponse, $client->getResponse()->getContent() ?: '');
+        $this->assertResponseStatusCodeSame(400);
+        $this->assertJsonStringEqualsJsonString($expectedResponse, $client->getResponse()->getContent() ?: '');
     }
 
     /**
