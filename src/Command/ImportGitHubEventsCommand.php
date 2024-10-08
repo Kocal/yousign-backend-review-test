@@ -64,10 +64,13 @@ class ImportGitHubEventsCommand extends Command
         $relativePeriod = $input->getOption('relative-period');
         
         if (!$startDate && !$endDate && !$relativePeriod) {
-            throw new \InvalidArgumentException('You must use the "start-date" "end-date" or "relative-period" arguments.');
+            throw new \InvalidArgumentException('You must use the "start-date" and "end-date" arguments together, or use "relative-period" argument alone.');
         }
         if ($relativePeriod && ($startDate || $endDate)) {
             throw new \InvalidArgumentException('You cannot use the "relative-period" argument with "start-date" or "end-date" arguments.');
+        }
+        if (!$relativePeriod && (!$startDate || !$endDate)) {
+            throw new \InvalidArgumentException('You must use the "start-date" and "end-date" arguments together.');
         }
         
         $this->startDate = $startDate ? now($startDate) : null;
