@@ -16,6 +16,11 @@ parameters:
 			path: src/Repository/DbalReadEventRepository.php
 
 		-
+			message: "#^Cannot cast mixed to string\\.$#"
+			count: 1
+			path: src/Repository/DbalReadEventRepository.php
+
+		-
 			message: "#^Method App\\\\Repository\\\\DbalReadEventRepository\\:\\:countByType\\(\\) should return array\\{pullRequest\\?\\: int\\<1, max\\>, commit\\?\\: int\\<1, max\\>, comment\\?\\: int\\<1, max\\>\\} but returns array\\<int\\|string, mixed\\>\\.$#"
 			count: 1
 			path: src/Repository/DbalReadEventRepository.php
@@ -27,10 +32,5 @@ parameters:
 
 		-
 			message: "#^Method App\\\\Repository\\\\DbalReadEventRepository\\:\\:statsByTypePerHour\\(\\) should return array\\<int\\<0, 23\\>, array\\{commit\\: int\\<1, max\\>, pullRequest\\: int\\<1, max\\>, comment\\: int\\<1, max\\>\\}\\> but returns non\\-empty\\-array\\<int, non\\-empty\\-array\\>\\.$#"
-			count: 1
-			path: src/Repository/DbalReadEventRepository.php
-
-		-
-			message: "#^Parameter \\#1 \\$json of function json_decode expects string, mixed given\\.$#"
 			count: 1
 			path: src/Repository/DbalReadEventRepository.php

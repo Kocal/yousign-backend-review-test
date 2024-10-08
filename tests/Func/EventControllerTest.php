@@ -2,16 +2,16 @@
 
 namespace App\Tests\Func;
 
-use App\DataFixtures\EventFixtures;
-use Doctrine\ORM\Tools\SchemaTool;
-use Liip\TestFixturesBundle\Services\DatabaseToolCollection;
-use Liip\TestFixturesBundle\Services\DatabaseTools\AbstractDatabaseTool;
+use App\Story\EventStory;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
+use Zenstruck\Foundry\Test\Factories;
+use Zenstruck\Foundry\Test\ResetDatabase;
 
 final class EventControllerTest extends WebTestCase
 {
-    private AbstractDatabaseTool $databaseTool;
+    use Factories;
+    use ResetDatabase;
 
     private static KernelBrowser $client;
 
@@ -19,16 +19,7 @@ final class EventControllerTest extends WebTestCase
     {
         static::$client = static::createClient();
 
-        $entityManager = static::getContainer()->get('doctrine.orm.entity_manager');
-        $metaData = $entityManager->getMetadataFactory()->getAllMetadata();
-        $schemaTool = new SchemaTool($entityManager);
-        $schemaTool->updateSchema($metaData);
-
-        $this->databaseTool = static::getContainer()->get(DatabaseToolCollection::class)->get();
-
-        $this->databaseTool->loadFixtures(
-            [EventFixtures::class]
-        );
+        EventStory::load();
     }
 
     public function testUpdateShouldReturnEmptyResponse(): void
@@ -37,7 +28,7 @@ final class EventControllerTest extends WebTestCase
 
         $client->request(
             'PUT',
-            \sprintf('/api/event/%d/update', EventFixtures::EVENT_1_ID),
+            \sprintf('/api/event/%d/update', EventStory::EVENT_1_ID),
             [],
             [],
             ['CONTENT_TYPE' => 'application/json'],
@@ -80,7 +71,7 @@ final class EventControllerTest extends WebTestCase
 
         $client->request(
             'PUT',
-            \sprintf('/api/event/%d/update', EventFixtures::EVENT_1_ID),
+            \sprintf('/api/event/%d/update', EventStory::EVENT_1_ID),
             [],
             [],
             ['CONTENT_TYPE' => 'application/json'],

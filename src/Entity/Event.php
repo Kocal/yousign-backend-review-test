@@ -17,8 +17,8 @@ class Event
     #[ORM\GeneratedValue(strategy: 'NONE')]
     private int $id;
 
-    #[ORM\Column(type: 'EventType', nullable: false)]
-    private string $type;
+    #[ORM\Column(nullable: false)]
+    private EventType $type;
 
     #[ORM\Column(type: Types::INTEGER, nullable: false)]
     private int $count = 1;
@@ -46,10 +46,9 @@ class Event
     /**
      * @param array<string, mixed> $payload
      */
-    public function __construct(int $id, string $type, Actor $actor, Repo $repo, array $payload, \DateTimeImmutable $createAt, ?string $comment)
+    public function __construct(int $id, EventType $type, Actor $actor, Repo $repo, array $payload, \DateTimeImmutable $createAt, ?string $comment)
     {
         $this->id = $id;
-        EventType::assertValidChoice($type);
         $this->type = $type;
         $this->actor = $actor;
         $this->repo = $repo;
@@ -67,7 +66,7 @@ class Event
         return $this->id;
     }
 
-    public function type(): string
+    public function type(): EventType
     {
         return $this->type;
     }
