@@ -12,17 +12,17 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
-class EventController
+readonly class EventUpdateController
 {
     public function __construct(
-        private readonly WriteEventRepository $writeEventRepository,
-        private readonly ReadEventRepository $readEventRepository,
-        private readonly SerializerInterface $serializer,
+        private WriteEventRepository $writeEventRepository,
+        private ReadEventRepository $readEventRepository,
+        private SerializerInterface $serializer,
     ) {
     }
 
     #[Route(path: '/api/event/{id}/update', name: 'api_commit_update', methods: ['PUT'])]
-    public function update(Request $request, int $id, ValidatorInterface $validator): Response
+    public function __invoke(Request $request, int $id, ValidatorInterface $validator): Response
     {
         $eventInput = $this->serializer->deserialize($request->getContent(), EventInput::class, 'json');
 

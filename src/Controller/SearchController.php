@@ -9,16 +9,16 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
 
-class SearchController
+readonly class SearchController
 {
     public function __construct(
-        private readonly ReadEventRepository $repository,
-        private readonly DenormalizerInterface $denormalizer,
+        private ReadEventRepository $repository,
+        private DenormalizerInterface $denormalizer,
     ) {
     }
 
     #[Route(path: '/api/search', name: 'api_search', methods: ['GET'])]
-    public function searchCommits(Request $request): JsonResponse
+    public function __invoke(Request $request): JsonResponse
     {
         $searchInput = $this->denormalizer->denormalize($request->query->all(), SearchInput::class);
 
