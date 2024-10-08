@@ -111,13 +111,13 @@ func-test: var/docker.up ## Run PhpUnit functionnal testsuite
 	@$(call log_success,Done)
 
 .PHONY: cs
-cs: var/docker.up ## Run PHP CS Fixer
+cs: vendor ## Run PHP CS Fixer
 	@$(call log,Running ...)
 	@$(PHP_RUN) vendor/bin/php-cs-fixer fix
 	@$(call log_success,Done)
 
 .PHONY: ca
-ca: var/docker.up ## Run PHP Code analysis
+ca: vendor ## Run PHP Code analysis
 	@$(call log,Running ...)
 	@$(PHP_RUN) vendor/bin/phpstan analyse
 	@$(call log_success,Done)
