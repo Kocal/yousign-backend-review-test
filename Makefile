@@ -116,8 +116,14 @@ cs: vendor ## Run PHP CS Fixer
 	@$(PHP_RUN) vendor/bin/php-cs-fixer fix
 	@$(call log_success,Done)
 
-.PHONY: ca
-ca: vendor ## Run PHP Code analysis
+.PHONY: phpstan
+phpstan: vendor ## Run PHP Code analysis
 	@$(call log,Running ...)
 	@$(PHP_RUN) vendor/bin/phpstan analyse
+	@$(call log_success,Done)
+
+.PHONE: rector
+rector: vendor ## Run Rector
+	@$(call log,Running ...)
+	@$(PHP_RUN) vendor/bin/rector process
 	@$(call log_success,Done)
