@@ -22,9 +22,7 @@ class SearchController
         $this->denormalizer = $denormalizer;
     }
 
-    /**
-     * @Route(path="/api/search", name="api_search", methods={"GET"})
-     */
+    #[Route(path: '/api/search', name: 'api_search', methods: ['GET'])]
     public function searchCommits(Request $request): JsonResponse
     {
         $searchInput = $this->denormalizer->denormalize($request->query->all(), SearchInput::class);
