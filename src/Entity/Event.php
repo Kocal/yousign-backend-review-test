@@ -49,6 +49,7 @@ class Event
     private Repo $repo;
 
     /**
+     * @var array<string, mixed>
      * @ORM\Column(type="json", nullable=false, options={"jsonb": true})
      */
     private array $payload;
@@ -63,6 +64,9 @@ class Event
      */
     private ?string $comment;
 
+    /**
+     * @param array<string, mixed> $payload
+     */
     public function __construct(int $id, string $type, Actor $actor, Repo $repo, array $payload, \DateTimeImmutable $createAt, ?string $comment)
     {
         $this->id = $id;
@@ -99,6 +103,9 @@ class Event
         return $this->repo;
     }
 
+    /**
+     * @return array<string, mixed>
+     */
     public function payload(): array
     {
         return $this->payload;

@@ -7,19 +7,19 @@ use App\Repository\ReadEventRepository;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Serializer\SerializerInterface;
+use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
 
 class SearchController
 {
     private ReadEventRepository $repository;
-    private SerializerInterface $serializer;
+    private DenormalizerInterface $denormalizer;
 
     public function __construct(
         ReadEventRepository $repository,
-        SerializerInterface $serializer,
+        DenormalizerInterface $denormalizer,
     ) {
         $this->repository = $repository;
-        $this->serializer = $serializer;
+        $this->denormalizer = $denormalizer;
     }
 
     /**
@@ -27,7 +27,7 @@ class SearchController
      */
     public function searchCommits(Request $request): JsonResponse
     {
-        $searchInput = $this->serializer->denormalize($request->query->all(), SearchInput::class);
+        $searchInput = $this->denormalizer->denormalize($request->query->all(), SearchInput::class);
 
         $countByType = $this->repository->countByType($searchInput);
 

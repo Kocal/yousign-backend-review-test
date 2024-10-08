@@ -115,3 +115,9 @@ cs: var/docker.up ## Run PHP CS Fixer
 	@$(call log,Running ...)
 	@$(PHP_RUN) vendor/bin/php-cs-fixer fix
 	@$(call log_success,Done)
+
+.PHONY: ca
+ca: var/docker.up ## Run PHP Code analysis
+	@$(call log,Running ...)
+	@$(PHP_RUN) vendor/bin/phpstan analyse
+	@$(call log_success,Done)

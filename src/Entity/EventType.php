@@ -4,6 +4,11 @@ namespace App\Entity;
 
 use Fresh\DoctrineEnumBundle\DBAL\Types\AbstractEnumType;
 
+/**
+ * TODO: Replace with a native PHP Enum, maybe upgrade Doctrine too
+ * 
+ * @extends AbstractEnumType<string, string>
+ */
 class EventType extends AbstractEnumType
 {
     public const COMMIT = 'COM';

@@ -1,0 +1,36 @@
+parameters:
+	ignoreErrors:
+		-
+			message: "#^Property App\\\\Entity\\\\Event\\:\\:\\$count \\(int\\) does not accept mixed\\.$#"
+			count: 1
+			path: src/Entity/Event.php
+
+		-
+			message: "#^Property App\\\\Entity\\\\Event\\:\\:\\$count is never read, only written\\.$#"
+			count: 1
+			path: src/Entity/Event.php
+
+		-
+			message: "#^Cannot cast mixed to int\\.$#"
+			count: 2
+			path: src/Repository/DbalReadEventRepository.php
+
+		-
+			message: "#^Method App\\\\Repository\\\\DbalReadEventRepository\\:\\:countByType\\(\\) should return array\\{pullRequest\\?\\: int\\<1, max\\>, commit\\?\\: int\\<1, max\\>, comment\\?\\: int\\<1, max\\>\\} but returns array\\<int\\|string, mixed\\>\\.$#"
+			count: 1
+			path: src/Repository/DbalReadEventRepository.php
+
+		-
+			message: "#^Method App\\\\Repository\\\\DbalReadEventRepository\\:\\:getLatest\\(\\) should return array\\<int, array\\{type\\: string, repo\\: array\\}\\> but returns array\\<int, non\\-empty\\-array\\<string, mixed\\>\\>\\.$#"
+			count: 1
+			path: src/Repository/DbalReadEventRepository.php
+
+		-
+			message: "#^Method App\\\\Repository\\\\DbalReadEventRepository\\:\\:statsByTypePerHour\\(\\) should return array\\<int\\<0, 23\\>, array\\{commit\\: int\\<1, max\\>, pullRequest\\: int\\<1, max\\>, comment\\: int\\<1, max\\>\\}\\> but returns non\\-empty\\-array\\<int, non\\-empty\\-array\\>\\.$#"
+			count: 1
+			path: src/Repository/DbalReadEventRepository.php
+
+		-
+			message: "#^Parameter \\#1 \\$json of function json_decode expects string, mixed given\\.$#"
+			count: 1
+			path: src/Repository/DbalReadEventRepository.php

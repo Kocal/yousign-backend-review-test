@@ -6,12 +6,13 @@ use App\DataFixtures\EventFixtures;
 use Doctrine\ORM\Tools\SchemaTool;
 use Liip\TestFixturesBundle\Services\DatabaseToolCollection;
 use Liip\TestFixturesBundle\Services\DatabaseTools\AbstractDatabaseTool;
+use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
-class EventControllerTest extends WebTestCase
+final class EventControllerTest extends WebTestCase
 {
     protected AbstractDatabaseTool $databaseTool;
-    private static $client;
+    private static KernelBrowser $client;
 
     protected function setUp(): void
     {
@@ -29,7 +30,7 @@ class EventControllerTest extends WebTestCase
         );
     }
 
-    public function testUpdateShouldReturnEmptyResponse()
+    public function testUpdateShouldReturnEmptyResponse(): void
     {
         $client = static::$client;
 
@@ -39,13 +40,13 @@ class EventControllerTest extends WebTestCase
             [],
             [],
             ['CONTENT_TYPE' => 'application/json'],
-            json_encode(['comment' => 'It‘s a test comment !!!!!!!!!!!!!!!!!!!!!!!!!!!'])
+            json_encode(['comment' => 'It‘s a test comment !!!!!!!!!!!!!!!!!!!!!!!!!!!'], flags: JSON_THROW_ON_ERROR)
         );
 
         $this->assertResponseStatusCodeSame(204);
     }
 
-    public function testUpdateShouldReturnHttpNotFoundResponse()
+    public function testUpdateShouldReturnHttpNotFoundResponse(): void
     {
         $client = static::$client;
 
@@ -55,7 +56,7 @@ class EventControllerTest extends WebTestCase
             [],
             [],
             ['CONTENT_TYPE' => 'application/json'],
-            json_encode(['comment' => 'It‘s a test comment !!!!!!!!!!!!!!!!!!!!!!!!!!!'])
+            json_encode(['comment' => 'It‘s a test comment !!!!!!!!!!!!!!!!!!!!!!!!!!!'], flags: JSON_THROW_ON_ERROR)
         );
 
         $this->assertResponseStatusCodeSame(404);
@@ -66,13 +67,13 @@ class EventControllerTest extends WebTestCase
               }
             JSON;
 
-        self::assertJsonStringEqualsJsonString($expectedJson, $client->getResponse()->getContent());
+        self::assertJsonStringEqualsJsonString($expectedJson, $client->getResponse()->getContent() ?: '');
     }
 
     /**
      * @dataProvider providePayloadViolations
      */
-    public function testUpdateShouldReturnBadRequest(string $payload, string $expectedResponse)
+    public function testUpdateShouldReturnBadRequest(string $payload, string $expectedResponse): void
     {
         $client = static::$client;
 
@@ -86,9 +87,12 @@ class EventControllerTest extends WebTestCase
         );
 
         self::assertResponseStatusCodeSame(400);
-        self::assertJsonStringEqualsJsonString($expectedResponse, $client->getResponse()->getContent());
+        self::assertJsonStringEqualsJsonString($expectedResponse, $client->getResponse()->getContent() ?: '');
     }
 
+    /**
+     * @return iterable<string, array{string, string}>
+     */
     public function providePayloadViolations(): iterable
     {
         yield 'comment too short' => [
