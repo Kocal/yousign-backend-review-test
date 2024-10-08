@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 use Rector\Config\RectorConfig;
+use Rector\Php80\Rector\Class_\ClassPropertyAssignToConstructorPromotionRector;
 use Rector\Symfony\CodeQuality\Rector\MethodCall\LiteralGetToRequestClassConstantRector;
 
 return RectorConfig::configure()
@@ -11,7 +12,7 @@ return RectorConfig::configure()
         __DIR__.'/tests',
     ])
     // uncomment to reach your current PHP version
-    // ->withPhpSets()
+     ->withPhpSets()
     ->withAttributesSets(doctrine: true, symfony: true)
     ->withPreparedSets(
         deadCode: true,
@@ -33,6 +34,10 @@ return RectorConfig::configure()
     ->withSkip([
         LiteralGetToRequestClassConstantRector::class => [
             __DIR__.'/tests/*',
+        ],
+        ClassPropertyAssignToConstructorPromotionRector::class => [
+            // I'm not a fan to promote all properties to constructor in Entities
+            __DIR__.'/src/Entity/*',
         ],
     ])
 ;

@@ -14,20 +14,11 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 class EventController
 {
-    private WriteEventRepository $writeEventRepository;
-
-    private ReadEventRepository $readEventRepository;
-
-    private SerializerInterface $serializer;
-
     public function __construct(
-        WriteEventRepository $writeEventRepository,
-        ReadEventRepository $readEventRepository,
-        SerializerInterface $serializer,
+        private readonly WriteEventRepository $writeEventRepository,
+        private readonly ReadEventRepository $readEventRepository,
+        private readonly SerializerInterface $serializer,
     ) {
-        $this->writeEventRepository = $writeEventRepository;
-        $this->readEventRepository = $readEventRepository;
-        $this->serializer = $serializer;
     }
 
     #[Route(path: '/api/event/{id}/update', name: 'api_commit_update', methods: ['PUT'])]
@@ -53,7 +44,7 @@ class EventController
 
         try {
             $this->writeEventRepository->update($eventInput, $id);
-        } catch (\Exception $exception) {
+        } catch (\Exception) {
             return new Response(null, Response::HTTP_SERVICE_UNAVAILABLE);
         }
 

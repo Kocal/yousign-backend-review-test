@@ -11,16 +11,10 @@ use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
 
 class SearchController
 {
-    private ReadEventRepository $repository;
-
-    private DenormalizerInterface $denormalizer;
-
     public function __construct(
-        ReadEventRepository $repository,
-        DenormalizerInterface $denormalizer,
+        private readonly ReadEventRepository $repository,
+        private readonly DenormalizerInterface $denormalizer,
     ) {
-        $this->repository = $repository;
-        $this->denormalizer = $denormalizer;
     }
 
     #[Route(path: '/api/search', name: 'api_search', methods: ['GET'])]
