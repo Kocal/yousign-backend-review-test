@@ -6,7 +6,6 @@ namespace App\EventsFetcher;
 use Psr\Log\LoggerInterface;
 use Psr\Log\NullLogger;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
-use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 /**
@@ -18,7 +17,6 @@ final class GhArchiveEventsFetcher implements EventsFetcher
         #[Autowire('%kernel.project_dir%/var/archives')]
         private readonly string $downloadDir,
         private readonly HttpClientInterface $ghArchiveClient,
-        private readonly Filesystem $filesystem,
         private readonly LoggerInterface|null $logger = new NullLogger(),
     ) {
     }
@@ -29,7 +27,9 @@ final class GhArchiveEventsFetcher implements EventsFetcher
             filenameFormat: sprintf('%s-%%d.json.gz', $date->format('Y-m-d'))
         );
         
-        yield from $this->readArchives($archives);
+        foreach ($archives as $archive) {
+            yield from $this->readArchive($archive);
+        }
         
         // TODO: maybe delete the downloaded archives after reading them?
     }
@@ -48,32 +48,37 @@ final class GhArchiveEventsFetcher implements EventsFetcher
             $filename = sprintf($filenameFormat, $i);
             $paths[] = $path = sprintf('%s/%s', $this->downloadDir, $filename);
 
-            if ($this->filesystem->exists($path)) {
+            if (file_exists($path)) {
                 $this->logger->debug('The archive "{path}" already exists, skipping downloading.', ['path' => $path]);
                 continue;
             }
-
+            
             $responses[] = $this->ghArchiveClient->request('GET', $filename, [
-                'user_data' => ['path' => $path],
+                'user_data' => [
+                    'file' => fopen($path, 'wb') ?: throw new \RuntimeException(sprintf('Could not open the file "%s".', $path))
+                ]
             ]);
         }
 
         foreach ($this->ghArchiveClient->stream($responses) as $response => $chunk) {
+            if (!$chunk->isFirst() && !$chunk->isLast()) {
+                if (!is_resource($file = $response->getInfo('user_data')['file'] ?? null)) {
+                    throw new \LogicException('Missing "file" in "user_data" option.');
+                }
+                
+                fwrite($file, $chunk->getContent());
+            }
+            
             if ($chunk->isLast()) {
-                $path = $response->getInfo('user_data')['path'] ?? throw new \LogicException('Missing "path" in "user_data" option.');
-
-                $this->filesystem->dumpFile($path, $response->getContent());
+                if (!is_resource($file = $response->getInfo('user_data')['file'] ?? null)) {
+                    throw new \LogicException('Missing "file" in "user_data" option.');
+                }
+                
+                fclose($file);
             }
         }
 
         return $paths;
-    }
-
-    private function readArchives(array $paths): iterable
-    {
-        foreach ($paths as $path) {
-            yield from $this->readArchive($path);
-        }
     }
 
     private function readArchive(string $path): iterable
@@ -88,6 +93,7 @@ final class GhArchiveEventsFetcher implements EventsFetcher
             }
         } finally {
             gzclose($handle);
+            unset($handle);
         }
     }
 }
