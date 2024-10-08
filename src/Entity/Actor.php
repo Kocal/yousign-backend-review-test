@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+
 /**
  * @ORM\Entity()
  * @ORM\Table(name="actor")
@@ -62,6 +63,7 @@ class Actor
         return $this->avatarUrl;
     }
 
+    // TODO: Refactor: Not a fan of those methods, let's remove it in the 2nd PR :)
     public static function fromArray(array $data): self
     {
         return new self(

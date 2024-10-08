@@ -51,6 +51,7 @@ class Repo
         return $this->url;
     }
 
+    // TODO: Refactor: Not a fan of those methods, let's remove it in the 2nd PR :)
     public static function fromArray(array $data): self
     {
         return new self(
